@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Phone Number Checker{% endblock %}
+
+{% block content %}
+    <h2> Phone Number Check</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="number" name="phone_number" placeholder="Enter phone number..."><br><br>
+        <button type="submit">Check</button>
+    </form>
+
+    {% if number_result %}
+        <p><strong>Result:</strong> {{ number_result }}</p>
+    {% endif %}
+
+    <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-top: 20px;">
+        <h3>Precautions for Spam Numbers 📞</h3>
+        <ol>
+            <li><strong>Don’t Answer Unknown Calls</strong><br>
+                If the number is unfamiliar or shows up as “Scam Likely,” avoid picking up. Let it go to voicemail first.</li><br>
+
+            <li><strong>Avoid Calling Back Suspicious Numbers</strong><br>
+                Don’t return missed calls from unknown international or premium-rate numbers. These could charge high fees or be part of a scam.</li><br>
+
+            <li><strong>Block and Report the Number</strong><br>
+                Use your phone’s built-in block feature or apps like Truecaller, Hiya, or Whoscall to block and report spam numbers.</li><br>
+
+            <li><strong>Enable Caller ID & Spam Protection</strong><br>
+                Turn on spam protection in your dialer settings. Most Android and iPhone devices support it.</li><br>
+
+            <li><strong>Don’t Share Personal Information</strong><br>
+                Never share sensitive details like OTPs, Aadhaar, bank account info, or passwords over the phone.</li><br>
+
+            <li><strong>Watch for Robocalls or Recorded Messages</strong><br>
+                If you hear a pre-recorded message asking you to “press 1,” hang up immediately.</li><br>
+
+            <li><strong>Register for DND (Do Not Disturb)</strong><br>
+                In India, send <code>START 0</code> to <code>1909</code> to activate DND and reduce telemarketing calls.</li><br>
+
+            <li><strong>Use Trusted Apps for Number Lookup</strong><br>
+                Apps like Truecaller can tell you if a number is marked as spam by many users.</li><br>
+
+            <li><strong>Alert Authorities or Cyber Crime Portals</strong><br>
+                If you receive repeated fraud calls, report them on <a href="https://cybercrime.gov.in" target="_blank">https://cybercrime.gov.in</a> or local police portals.</li><br>
+
+            <li><strong>Educate Others</strong><br>
+                Warn friends and family, especially elders, about scam calls pretending to be bank officials, lottery agents, or government officers.</li>
+        </ol>
+    </div>
+
+    <a href="{% url 'home' %}">⬅ Back to Home</a>
+{% endblock %}

@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Spam Detection{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #aaa;
+            padding: 40px;
+            margin: 0;
+            position: relative;
+            overflow-y: auto;
+            min-height: 100vh;
+        }
+
+        .circle1, .circle2 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.7), transparent 70%);
+            z-index: -2;
+        }
+
+        .circle1 {
+            top: -150px;
+            left: -150px;
+            animation: moveCircle1 20s linear infinite;
+        }
+
+        .circle2 {
+            bottom: -150px;
+            right: -150px;
+            animation: moveCircle2 20s linear infinite;
+        }
+
+        @keyframes moveCircle1 {
+            0%   { transform: translate(0, 0); }
+            50%  { transform: translate(60px, 60px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes moveCircle2 {
+            0%   { transform: translate(0, 0); }
+            50%  { transform: translate(-60px, -60px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -40px;
+            margin-top: -40px;
+            width: 80px;
+            height: 80px;
+            border: 4px solid #222;
+            border-top: 4px solid #007BFF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Layout Flex for Sidebar + Content */
+        .main-layout {
+            display: flex;
+            min-height: 100vh;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background-color: rgba(26, 26, 26, 0.9);
+            padding: 30px 20px;
+            box-shadow: 4px 0 12px rgba(0, 123, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar h2 {
+            color: #66b2ff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 16px;
+            color: #66b2ff;
+            text-decoration: none;
+            background-color: rgba(0, 123, 255, 0.1);
+            border-left: 4px solid transparent;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .sidebar a:hover {
+            background-color: rgba(0, 123, 255, 0.3);
+            border-left: 4px solid #007bff;
+            color: white;
+        }
+
+        /* Content Container */
+        .container {
+            background-color: rgba(26, 26, 26, 0.7);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.2);
+            max-width: 800px;
+            margin: 40px auto;
+            flex: 1;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ccc;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background-color: rgba(42, 42, 42, 0.7);
+            color: #ccc;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: rgba(0, 123, 255, 0.5);
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: rgba(0, 123, 255, 0.8);
+        }
+
+        marquee {
+            color: #66b2ff;
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            background-color: #1a1a1a;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border-left: 6px solid #007BFF;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        a {
+            color: #66b2ff;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Circles -->
+    <div class="circle1"></div>
+    <div class="circle2"></div>
+
+    <!-- Spinner -->
+    <div class="spinner"></div>
+
+    <!-- Sidebar + Main Content Layout -->
+    <div class="main-layout">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <h2> Cyber Portal</h2>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'predict_message' %}">Message Spam Detection</a>
+            <a href="{% url 'predict_url' %}">URL Spam Detection</a>
+            <a href="{% url 'check_number' %}">Phone Number Check</a>
+            <a href="{% url 'cybercrime_graph' %}">Cyber Crime Growth Graph</a>
+            <a href="{% url 'report_spam' %}">Report Spam</a>
+        </nav>
+
+        <!-- Content -->
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

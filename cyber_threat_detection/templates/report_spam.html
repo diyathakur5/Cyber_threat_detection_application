@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}URL Spam Detection{% endblock %}
+
+{% block content %}
+<h2>Report Spam</h2>
+
+<!-- report_spam.html -->
+<form method="POST">
+    {% csrf_token %}
+    <label for="type">Select Type:</label>
+    <select name="type" id="type" required>
+        <option value="message">Message</option>
+        <option value="url">URL</option>
+        <option value="number">Phone Number</option>
+    </select>
+
+    <br><br>
+
+    <label for="value">Enter Value:</label>
+    <input type="text" name="value" required>
+
+    <br><br>
+    <button type="submit">Report</button>
+</form>
+
+{% if report_result %}
+    <p style="color: green;">{{ report_result }}</p>
+{% endif %}
+
+
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
+{% endblock %}

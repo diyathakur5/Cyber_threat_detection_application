@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cybercrime Trends{% endblock %}
+
+{% block content %}
+    <h2 style="text-align: center;">📊 Animated 3D Cybercrime Growth Trends (2018–2025)</h2>
+
+    <!-- Plotly graph container -->
+    <div id="cybercrime-graph" style="height: 600px;"></div>
+
+    <!-- Back button -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'home' %}" style="color: #007BFF;">⬅ Back to Home</a>
+    </div>
+
+    <!-- Load Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <!-- Animate the chart -->
+    <script>
+        const dataObj = JSON.parse('{{ chart_data_json|escapejs }}');
+        const years = dataObj.years;
+        const messages = dataObj.spam_messages;
+        const urls = dataObj.spam_urls;
+        const numbers = dataObj.spam_numbers;
+
+        const frames = years.map((year, i) => ({
+            name: String(year),
+            data: [
+                {
+                    x: years.slice(0, i + 1),
+                    y: messages.slice(0, i + 1),
+                    z: Array(i + 1).fill(0),  // messages line on z=0
+                    mode: 'lines+markers',
+                    type: 'scatter3d',
+                    name: 'Spam Messages ',
+                    line: { color: 'blue' }
+                },
+                {
+                    x: years.slice(0, i + 1),
+                    y: urls.slice(0, i + 1),
+                    z: Array(i + 1).fill(1),  // URLs line on z=1
+                    mode: 'lines+markers',
+                    type: 'scatter3d',
+                    name: 'Spam URLs ',
+                    line: { color: 'green' }
+                },
+                {
+                    x: years.slice(0, i + 1),
+                    y: numbers.slice(0, i + 1),
+                    z: Array(i + 1).fill(2),  // phone numbers line on z=2
+                    mode: 'lines+markers',
+                    type: 'scatter3d',
+                    name: 'Spam Numbers ',
+                    line: { color: 'red' }
+                }
+            ]
+        }));
+
+        const layout = {
+            title: ' Animated 3D Comparison of Cybercrimes',
+            scene: {
+                xaxis: { title: 'Year' },
+                yaxis: { title: 'Count' },
+                zaxis: {
+                    title: 'Category',
+                    tickvals: [0, 1, 2],
+                    ticktext: ['Messages', 'URLs', 'Phone Numbers']
+                }
+            },
+            legend: { x: 0, y: 1 },
+            updatemenus: [{
+                type: 'buttons',
+                showactive: false,
+                buttons: [{
+                    label: ' Play Animation',
+                    method: 'animate',
+                    args: [null, {
+                        frame: { duration: 700, redraw: true },
+                        fromcurrent: true,
+                        transition: { duration: 300 }
+                    }]
+                }]
+            }]
+        };
+
+        Plotly.newPlot('cybercrime-graph', frames[0].data, layout).then(() => {
+            Plotly.addFrames('cybercrime-graph', frames);
+        });
+    </script>
+{% endblock %}

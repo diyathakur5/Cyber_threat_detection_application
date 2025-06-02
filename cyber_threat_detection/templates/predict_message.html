@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Message Spam Detection{% endblock %}
+
+{% block content %}
+<h2> Message Spam Detection</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="message" placeholder="Enter a message..."><br><br>
+        <button type="submit">Check</button>
+    </form>
+
+    {% if message_prediction %}
+        <p>Result: {{ message_prediction }}</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}">⬅ Back to Home</a>
+
+    <div style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-top: 20px;">
+        <h3>Precautions for Spam Messages</h3>
+    <ol>
+        <li><strong>Don't Click Suspicious Links</strong><br>
+            Avoid clicking on any links from unknown or untrusted sources.<br>
+            These links may lead to phishing sites or install malware.
+        </li>
+        <li><strong>Verify the Sender</strong><br>
+            Check if the number or email is genuine.<br>
+            Look for slight changes like extra letters or strange domains (e.g., amaz0n.com instead of amazon.com).
+        </li>
+        <li><strong>Never Share Personal Info</strong><br>
+            Don’t share OTPs, bank details, passwords, or Aadhaar numbers via messages.<br>
+            No legit organization will ask for this info over SMS or chat.
+        </li>
+        <li><strong>Use Spam Filters</strong><br>
+            Enable spam filters in your SMS or messaging apps.<br>
+            Apps like Truecaller or Google Messages can automatically block known spammers.
+        </li>
+        <li><strong>Report Spam</strong><br>
+            Use in-app options to report as spam or block the number.<br>
+            You can also report spam to <strong>1909 (TRAI)</strong> in India.
+        </li>
+        <li><strong>Avoid Shortened URLs</strong><br>
+            URLs like bit.ly/xyz can hide the final destination.<br>
+            Use a URL expander service or avoid them entirely unless verified.
+        </li>
+        <li><strong>Check for Urgency Tactics</strong><br>
+            Messages with urgency like "Act Now!", "Limited Offer", "Your account will be blocked", etc., are red flags.
+        </li>
+        <li><strong>Keep Software Updated</strong><br>
+            Regularly update your phone's OS and apps to protect from vulnerabilities used by spammers.
+        </li>
+        <li><strong>Enable Two-Factor Authentication (2FA)</strong><br>
+            Use 2FA on your accounts to add an extra layer of security.
+        </li>
+        <li><strong>Educate Yourself & Others</strong><br>
+            Share knowledge with friends and family to prevent them from becoming victims.
+        </li>
+    </ol>
+</div>
+{% endblock %}
